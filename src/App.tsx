@@ -1,10 +1,11 @@
 import React, {useMemo, useRef, useState} from 'react';
 import './App.css';
-import ReactQuill, {Quill} from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill, {Quill} from './react-quill';
+import './react-quill/quill.snow.less';
 import FindModal from "./FindModal";
 import SearchedStringBlot from './SearchedString'
 
+// @ts-ignore
 Quill.register(SearchedStringBlot);
 
 const CustomButton = () => <span className="iconfont">

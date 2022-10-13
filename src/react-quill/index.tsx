@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import isEqual from 'lodash/isEqual';
 
-import Quill, {
+import {
     QuillOptionsStatic,
     DeltaStatic,
     RangeStatic,
@@ -15,6 +15,8 @@ import Quill, {
     StringMap,
     Sources,
 } from 'quill';
+
+import Quill from '../quill/quill'
 
 // Merged namespace hack to export types along with default object
 // See: https://github.com/Microsoft/TypeScript/issues/2719
@@ -575,6 +577,8 @@ function postpone(fn: (value: void) => void) {
     Promise.resolve().then(fn);
 }
 
+export {Quill}
+
 // Compatibility Export to avoid `require(...).default` on CommonJS.
 // See: https://github.com/Microsoft/TypeScript/issues/2719
-export = ReactQuill;
+export default ReactQuill;

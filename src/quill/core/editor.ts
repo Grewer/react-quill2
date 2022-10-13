@@ -1,6 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
-import isEqual from 'lodash.isequal';
-import merge from 'lodash.merge';
+import {cloneDeep,isEqual,merge} from 'lodash';
 import { LeafBlot, Scope } from 'parchment';
 import Delta, { AttributeMap, Op } from 'quill-delta';
 import Block, { BlockEmbed, bubbleFormats } from '../blots/block';

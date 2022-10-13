@@ -1,4 +1,4 @@
-import merge from 'lodash.merge';
+import {merge} from 'lodash';
 import Quill from '../core/quill';
 import Emitter from '../core/emitter';
 import Theme from '../core/theme';
