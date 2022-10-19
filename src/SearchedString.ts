@@ -1,6 +1,6 @@
-import {Quill} from 'react-quill';
+import {Quill} from './react-quill';
 
-let Inline = Quill.import('blots/inline');
+let Inline: any = Quill.import('blots/inline');
 
 class SearchedStringBlot extends Inline {
     static blotName: string;

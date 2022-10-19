@@ -1,3 +1,4 @@
+/* eslint import/first: 0 */
 /*
 React-Quill
 https://github.com/zenoamaro/react-quill
@@ -8,8 +9,6 @@ import ReactDOM from 'react-dom';
 import isEqual from 'lodash/isEqual';
 
 import {
-    QuillOptionsStatic,
-    DeltaStatic,
     RangeStatic,
     BoundsStatic,
     StringMap,
@@ -17,28 +16,29 @@ import {
 } from 'quill';
 
 import Quill from '../quill/quill'
+import {Delta} from '../quill/core'
+import {Options} from '../quill/core/quill'
 
 // Merged namespace hack to export types along with default object
 // See: https://github.com/Microsoft/TypeScript/issues/2719
 namespace ReactQuill {
-    export type Value = string | DeltaStatic;
+    export type Value = string | Delta;
     export type Range = RangeStatic | null;
     
-    export interface QuillOptions extends QuillOptionsStatic {
+    export interface QuillOptions extends Options {
         tabIndex?: number,
     }
     
     export interface ReactQuillProps {
-        bounds?: string | HTMLElement,
+        bounds?:  HTMLElement,
         children?: React.ReactElement<any>,
         className?: string,
         defaultValue?: Value,
-        formats?: string[],
         id?: string,
         modules?: StringMap,
         onChange?(
             value: string,
-            delta: DeltaStatic,
+            delta: Delta,
             source: Sources,
             editor: UnprivilegedEditor,
         ): void,
@@ -63,7 +63,7 @@ namespace ReactQuill {
         placeholder?: string,
         preserveWhitespace?: boolean,
         readOnly?: boolean,
-        scrollingContainer?: string | HTMLElement,
+        scrollingContainer?:  HTMLElement,
         style?: React.CSSProperties,
         tabIndex?: number,
         theme?: string,
@@ -76,11 +76,11 @@ namespace ReactQuill {
         getHTML(): string;
         getBounds(index: number, length?: number): BoundsStatic;
         getSelection(focus?: boolean): RangeStatic;
-        getContents(index?: number, length?: number): DeltaStatic;
+        getContents(index?: number, length?: number): Delta;
     }
 }
 
-// Re-import everything from namespace into scope for comfort
+// re-import everything from namespace into scope for comfort
 import Value = ReactQuill.Value;
 import Range = ReactQuill.Range;
 import QuillOptions = ReactQuill.QuillOptions;
@@ -106,7 +106,6 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
     */
     dirtyProps: (keyof ReactQuillProps)[] = [
         'modules',
-        'formats',
         'bounds',
         'theme',
         'children',
@@ -164,13 +163,13 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
     /*
     Used to compare whether deltas from `onChange` are being used as `value`.
     */
-    lastDeltaChangeSet?: DeltaStatic
+    lastDeltaChangeSet?: Delta
     
     /*
     Stores the contents of the editor to be restored after regeneration.
     */
     regenerationSnapshot?: {
-        delta: DeltaStatic,
+        delta: Delta,
         selection: Range,
     }
     
@@ -311,7 +310,6 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
     getEditorConfig(): QuillOptions {
         return {
             bounds: this.props.bounds,
-            formats: this.props.formats,
             modules: this.props.modules,
             placeholder: this.props.placeholder,
             readOnly: this.props.readOnly,
@@ -330,7 +328,7 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
      Creates an editor on the given element. The editor will be passed the
      configuration, have its events bound,
      */
-    createEditor(element: Element, config: QuillOptions) {
+    createEditor(element: HTMLElement, config: QuillOptions) {
         const editor = new Quill(element, config);
         if (config.tabIndex != null) {
             this.setEditorTabIndex(editor, config.tabIndex);
@@ -386,7 +384,12 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
         this.value = value;
         const sel = this.getEditorSelection();
         if (typeof value === 'string') {
-            editor.setContents(editor.clipboard.convert(value));
+            editor.setContents(
+                editor.clipboard.convert({
+                    html: `${value}<p><br></p>`,
+                    text: '\n',
+                }),
+            );
         } else {
             editor.setContents(value);
         }
@@ -434,7 +437,7 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
         };
     }
     
-    getEditingArea(): Element {
+    getEditingArea(): HTMLElement {
         if (!this.editingArea) {
             throw new Error('Instantiating on missing editing area');
         }
@@ -445,7 +448,7 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
         if (element.nodeType === 3) {
             throw new Error('Editing area cannot be a text node');
         }
-        return element as Element;
+        return element as HTMLElement;
     }
     
     /*
@@ -492,14 +495,14 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
     
     onEditorChange = (
         eventName: 'text-change' | 'selection-change',
-        rangeOrDelta: Range | DeltaStatic,
-        oldRangeOrDelta: Range | DeltaStatic,
+        rangeOrDelta: Range | Delta,
+        oldRangeOrDelta: Range | Delta,
         source: Sources,
     ) => {
         if (eventName === 'text-change') {
             this.onEditorChangeText?.(
                 this.editor!.root.innerHTML,
-                rangeOrDelta as DeltaStatic,
+                rangeOrDelta as Delta,
                 source,
                 this.unprivilegedEditor!
             );
@@ -514,7 +517,7 @@ class ReactQuill extends React.Component<ReactQuillProps, ReactQuillState> {
     
     onEditorChangeText(
         value: string,
-        delta: DeltaStatic,
+        delta: Delta,
         source: Sources,
         editor: UnprivilegedEditor,
     ): void {

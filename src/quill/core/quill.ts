@@ -24,7 +24,7 @@ const debug = logger('quill');
 const globalRegistry = new Parchment.Registry();
 Parchment.ParentBlot.uiClass = 'ql-ui';
 
-interface Options {
+export interface Options {
   theme?: string;
   debug?: string | boolean;
   registry?: Parchment.Registry;

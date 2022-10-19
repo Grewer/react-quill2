@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "antd/es/icon";
 import {Button, Checkbox, Input, Tabs} from "antd";
 import {debounce} from "lodash";
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";

@@ -1,6 +1,6 @@
 import React, {useMemo, useRef, useState} from 'react';
 import './App.css';
-import ReactQuill, {Quill} from './react-quill';
+import ReactQuill, {Quill} from './react-quill/index';
 import './react-quill/quill.snow.less';
 import FindModal from "./FindModal";
 import SearchedStringBlot from './SearchedString'
