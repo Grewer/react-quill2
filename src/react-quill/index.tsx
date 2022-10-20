@@ -6,22 +6,24 @@ https://github.com/zenoamaro/react-quill
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import isEqual from 'lodash/isEqual';
+import {isEqual} from 'lodash';
 
-import {
-    RangeStatic,
-    BoundsStatic,
-    StringMap,
-    Sources,
-} from 'quill';
+// import {
+//     RangeStatic,
+//     BoundsStatic,
+//     StringMap,
+//     Sources,
+// } from 'quill';
 
-import Quill from '../quill/quill'
 import {Delta} from '../quill/core'
 import {Options} from '../quill/core/quill'
+import Quill from '../quill/quill'
 
-// Merged namespace hack to export types along with default object
-// See: https://github.com/Microsoft/TypeScript/issues/2719
-namespace ReactQuill {
+type RangeStatic = any;
+type BoundsStatic = any;
+type StringMap = any;
+type Sources = any;
+
     export type Value = string | Delta;
     export type Range = RangeStatic | null;
     
@@ -78,15 +80,8 @@ namespace ReactQuill {
         getSelection(focus?: boolean): RangeStatic;
         getContents(index?: number, length?: number): Delta;
     }
-}
 
-// re-import everything from namespace into scope for comfort
-import Value = ReactQuill.Value;
-import Range = ReactQuill.Range;
-import QuillOptions = ReactQuill.QuillOptions;
-import ReactQuillProps = ReactQuill.ReactQuillProps;
-import UnprivilegedEditor = ReactQuill.UnprivilegedEditor;
-
+    
 interface ReactQuillState {
     generation: number,
 }

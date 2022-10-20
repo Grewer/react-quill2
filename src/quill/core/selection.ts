@@ -1,5 +1,5 @@
 import { LeafBlot, Scope } from 'parchment';
-import {cloneDeep,isEqual} from 'lodash.clonedeep';
+import {cloneDeep,isEqual} from 'lodash';
 import Emitter, { EmitterSource } from './emitter';
 import logger from './logger';
 import Cursor from '../blots/cursor';

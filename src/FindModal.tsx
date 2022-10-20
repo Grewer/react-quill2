@@ -44,7 +44,7 @@ class FindModal extends React.Component<IProps, IState> {
     };
     
     editorOnChange = (delta, oldDelta, source) => {
-        if (source == 'user') {
+        if (source === 'user') {
             this.search();
         }
     };

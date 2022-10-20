@@ -1,4 +1,4 @@
-import {Quill} from './react-quill';
+import Quill from './quill/quill';
 
 let Inline: any = Quill.import('blots/inline');
 
