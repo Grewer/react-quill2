@@ -699,16 +699,19 @@ function expandConfig(
     userConfig,
   );
   if (!expandedConfig.theme || expandedConfig.theme === Quill.DEFAULTS.theme) {
-    expandedConfig.theme = Theme;
+    // @ts-ignore
+      expandedConfig.theme = Theme;
   } else {
-    expandedConfig.theme = Quill.import(`themes/${expandedConfig.theme}`);
+    // @ts-ignore
+      expandedConfig.theme = Quill.import(`themes/${expandedConfig.theme}`);
     if (expandedConfig.theme == null) {
       throw new Error(
         `Invalid theme ${expandedConfig.theme}. Did you register it?`,
       );
     }
   }
-  const themeConfig = cloneDeep(expandedConfig.theme.DEFAULTS);
+  // @ts-ignore
+    const themeConfig = cloneDeep(expandedConfig.theme.DEFAULTS);
   [themeConfig, expandedConfig].forEach(config => {
     config.modules = config.modules || {};
     Object.keys(config.modules).forEach(module => {
@@ -754,7 +757,8 @@ function expandConfig(
       expandedConfig[key] = document.querySelector(expandedConfig[key]);
     }
   });
-  expandedConfig.modules = Object.keys(expandedConfig.modules).reduce(
+  // @ts-ignore
+    expandedConfig.modules = Object.keys(expandedConfig.modules).reduce(
     (config, name) => {
       if (expandedConfig.modules[name]) {
         config[name] = expandedConfig.modules[name];
@@ -763,7 +767,8 @@ function expandConfig(
     },
     {},
   );
-  return expandedConfig;
+  // @ts-ignore
+    return expandedConfig;
 }
 
 // Handle selection preservation and TEXT_CHANGE emission
