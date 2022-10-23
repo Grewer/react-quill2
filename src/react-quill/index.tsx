@@ -8,21 +8,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {isEqual} from 'lodash';
 
-// import {
-//     RangeStatic,
-//     BoundsStatic,
-//     StringMap,
-//     Sources,
-// } from 'quill';
+import {
+    RangeStatic,
+    BoundsStatic,
+    StringMap,
+    Sources,
+} from 'quill';
 
 import {Delta} from '../quill/core'
 import {Options} from '../quill/core/quill'
 import Quill from '../quill/quill'
 
-type RangeStatic = any;
-type BoundsStatic = any;
-type StringMap = any;
-type Sources = any;
 
     export type Value = string | Delta;
     export type Range = RangeStatic | null;
