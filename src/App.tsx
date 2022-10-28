@@ -4,9 +4,11 @@ import ReactQuill, {Quill} from './react-quill/index';
 import './react-quill/quill.snow.less';
 import FindModal from "./FindModal";
 import SearchedStringBlot from './SearchedString'
+import TableUI from './modules/table';
 
 // @ts-ignore
 Quill.register(SearchedStringBlot);
+Quill.register({ 'modules/tableUI': TableUI }, true);
 
 const CustomButton = () => <span className="iconfont">
     find
@@ -44,6 +46,8 @@ function App() {
             handlers: {
                 showFindModal,
             },
+            table: true,
+            tableUI: {},
         },
     }), []);
     

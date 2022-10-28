@@ -15,7 +15,7 @@
     "suppressImplicitAnyIndexErrors": false,
     "allowSyntheticDefaultImports": true,
     "target": "es6",
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "moduleResolution": "node"
   },

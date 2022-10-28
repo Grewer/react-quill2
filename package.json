@@ -16,6 +16,7 @@
     "eventemitter3": "^4.0.0",
     "lodash": "^4.17.21",
     "parchment": "^2.0.0",
+    "positioning": "^2.0.1",
     "quill-delta": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
