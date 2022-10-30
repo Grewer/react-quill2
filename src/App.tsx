@@ -29,15 +29,29 @@ const CustomToolbar = () => <div id="toolbar">
     <button className="ql-showFindModal">
         <CustomButton/>
     </button>
+    <button className="ql-insertTable">
+        inert
+    </button>
 </div>
 
 
 function App() {
     const [value, setValue] = useState('');
     const [visible, setVisible] = useState(false)
+    const editorRef = useRef<any>()
     
     function showFindModal() {
         setVisible(true)
+    }
+    
+    function insertTable() {
+        const quill = editorRef.current?.editor
+        if(quill){
+            quill.focus();
+            const table = quill.getModule('table');
+            console.log(table);
+            table.insertTable(3, 3);
+        }
     }
     
     const modules = useMemo(() => ({
@@ -45,14 +59,14 @@ function App() {
             container: '#toolbar',
             handlers: {
                 showFindModal,
-            },
-            table: true,
-            tableUI: {},
+                insertTable
+            }
         },
+        table: true,
+        tableUI: {},
     }), []);
     
     const _closeFindModal = () => setVisible(false)
-    const editorRef = useRef<any>()
     
     const getEditor = () => {
         return editorRef.current?.editor

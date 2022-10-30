@@ -1,6 +1,5 @@
 import {Quill} from '../react-quill';
-import { positionElements } from 'positioning';
-import type { Placement } from 'positioning';
+import positions from 'position.js';
 import './table.less';
 
 interface Range {
@@ -24,14 +23,6 @@ enum QuillSources {
     SILENT = 'silent',
     USER = 'user',
 }
-
-const DEFAULT_PLACEMENT: Placement[] = [
-    'bottom-left',
-    'bottom-right',
-    'top-left',
-    'top-right',
-    'auto',
-];
 
 const iconAddColRight =
     '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="icon" width="20px" height="20px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#595959" d="M73.142857 336.64h526.628572v43.885714H73.142857zM73.142857 643.657143h526.628572v43.885714H73.142857zM336.457143 117.028571h43.885714v789.942858h-43.885714zM204.8 73.142857h614.4a131.657143 131.657143 0 0 1 131.657143 131.657143v614.4a131.657143 131.657143 0 0 1-131.657143 131.657143H204.8A131.657143 131.657143 0 0 1 73.142857 819.2V204.8A131.84 131.84 0 0 1 204.8 73.142857z m0 43.885714a87.771429 87.771429 0 0 0-87.771429 87.771429v614.4a87.771429 87.771429 0 0 0 87.771429 87.771429h614.4a87.771429 87.771429 0 0 0 87.771429-87.771429V204.8a87.771429 87.771429 0 0 0-87.771429-87.771429zM819.2 73.142857h-219.428571v877.714286h219.428571a131.657143 131.657143 0 0 0 131.657143-131.657143V204.8A131.84 131.84 0 0 0 819.2 73.142857z m44.068571 460.982857h-65.828571v65.828572H753.371429v-65.828572h-65.828572V490.057143h65.828572v-65.828572h44.068571v65.828572h65.828571z" /></svg>';
@@ -178,7 +169,7 @@ export default class TableUI {
     
     docClickHandler = () => this.hideMenu;
     
-    isTable(range?: Range) {
+    isTable(range?: any) {
         if (!range) {
             range = this.quill.getSelection();
         }
@@ -190,7 +181,7 @@ export default class TableUI {
         return !!(formats['table'] && !range.length);
     }
     
-    getColCount(range: Range = null) {
+    getColCount(range: any = null) {
         if (!range) {
             range = this.quill.getSelection();
         }
@@ -214,7 +205,26 @@ export default class TableUI {
         this.menuItems.forEach((it) => {
             this.menu.appendChild(this.createMenuItem(it));
         });
-        positionElements(this.toggle, this.menu, DEFAULT_PLACEMENT, false);
+        // set menu position
+        const position = positions(this.menu, this.toggle, {
+            popup: 'top-left',
+            anchor: 'bottom-left',
+        }, {
+            offsetParent: this.quill.container
+        });
+    
+        // dynamic adjustment when the menu cannot be displayed completely
+        if (this.quill.container.clientWidth - position.left < this.menu.clientWidth) {
+            this.menu.style.left = `${this.quill.container.clientWidth - this.menu.clientWidth}px`;
+        } else {
+            this.menu.style.left = `${position.left}px`;
+        }
+    
+        if (this.quill.container.clientHeight - position.top < this.menu.clientHeight) {
+            this.menu.style.top = `${this.quill.container.clientHeight - this.menu.clientHeight}px`;
+        } else {
+            this.menu.style.top = `${position.top}px`;
+        }
         document.addEventListener('click', this.docClickHandler);
     }
     
@@ -248,6 +258,7 @@ export default class TableUI {
                 this.quill.focus();
                 item.handler();
                 this.hideMenu();
+                // @ts-ignore
                 this.detectButton(this.quill.getSelection());
             },
             false
@@ -264,6 +275,7 @@ export default class TableUI {
         if (show) {
             const [cell, offset] = this.quill.getLine(range.index);
             const containerBounds = this.quill.container.getBoundingClientRect();
+            // @ts-ignore
             let bounds: { top: number; left: number; bottom: number; width: number; right: number; height: number } = cell.domNode.getBoundingClientRect();
             bounds = {
                 bottom: bounds.bottom - containerBounds.top,

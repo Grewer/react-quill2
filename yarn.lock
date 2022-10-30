@@ -6681,15 +6681,15 @@ param-case@^3.0.4:
     dot-case "^3.0.4"
     tslib "^2.0.3"
 
+parchment@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmmirror.com/parchment/-/parchment-2.0.0.tgz#cb69eeb70199e34cd94505a989f059154e0b2caf"
+  integrity sha512-lLq8Q43ZcH3lfhY5F22F8lSkWay7nQMWeIpAIwywe1NFd5tWkhH7cyboM71MXz+00ZTGR86UM+0K9cGIx/jR7g==
+
 parchment@^1.1.2:
   version "1.1.4"
   resolved "https://registry.npmmirror.com/parchment/-/parchment-1.1.4.tgz#aeded7ab938fe921d4c34bc339ce1168bc2ffde5"
   integrity sha512-J5FBQt/pM2inLzg4hEWmzQx/8h8D0CiDxaG3vyp9rKrQRSDgBlhjdP5jQGgosEajXPSQouXGHOmVdgo7QmJuOg==
-
-parchment@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.npmmirror.com/parchment/-/parchment-2.0.1.tgz#563d2aa2f61d874ba4b6864c0c22c2d4d3dc40d4"
-  integrity sha512-VBKrlEoZCBD+iwoeag0QTtY1Cti+Ma4nLpVYcc/uus/wHhMsPOi5InH3RL1s4aekahPZpabcS2ToKyGf7RMH/g==
 
 parent-module@^1.0.0:
   version "1.0.1"
@@ -6815,10 +6815,10 @@ pkg-up@^3.1.0:
   dependencies:
     find-up "^3.0.0"
 
-positioning@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmmirror.com/positioning/-/positioning-2.0.1.tgz#4f1b3a65ed4b830e0922a3fcdf6de58a545bd398"
-  integrity sha512-DsAgM42kV/ObuwlRpAzDTjH9E8fGKkMDJHWFX+kfNXSxh7UCCQxEmdjv/Ws5Ft1XDnt3JT8fIDYeKNSE2TbttA==
+position.js@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npmmirror.com/position.js/-/position.js-0.3.0.tgz#3e6e3a13d27a86f0c096c2db3d17369a80227f88"
+  integrity sha512-dPTc3vxorMzXDViK8mTL5ShqLKGNr3pjdbbiq+6Pud1sVCD/SMuGV/UtQ/acg0gsgJHGg5RxUwtd0v2U4rXBjQ==
 
 postcss-attribute-case-insensitive@^5.0.2:
   version "5.0.2"

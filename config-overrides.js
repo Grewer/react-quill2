@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
     // The Webpack config
     webpack: function(config, env) {
@@ -25,6 +27,11 @@ module.exports = {
                 },
             ],
         })
+        
+        config.resolve.alias['@'] = path.resolve(__dirname, 'src')
+        
+        console.log(config)
+        
         return config;
     },
     // The Jest config
