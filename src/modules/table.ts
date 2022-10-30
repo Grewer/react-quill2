@@ -1,4 +1,4 @@
-import {Quill} from '../react-quill';
+import {Quill} from '../quill';
 import positions from 'position.js';
 import './table.less';
 

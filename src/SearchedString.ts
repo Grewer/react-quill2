@@ -1,4 +1,4 @@
-import Quill from './quill/quill';
+import {Quill} from './quill';
 
 let Inline: any = Quill.import('blots/inline');
 

@@ -1,6 +1,6 @@
 import React, {useMemo, useRef, useState} from 'react';
 import './App.css';
-import ReactQuill, {Quill} from './react-quill/index';
+import ReactQuill, {Quill} from './quill/index';
 import './react-quill/quill.snow.less';
 import FindModal from "./FindModal";
 import SearchedStringBlot from './SearchedString'
@@ -15,15 +15,6 @@ const CustomButton = () => <span className="iconfont">
 </span>;
 
 const CustomToolbar = () => <div id="toolbar">
-    <select
-        className="ql-header"
-        defaultValue={''}
-        onChange={(e) => e.persist()}
-    >
-        <option value="1"></option>
-        <option value="2"></option>
-        <option selected></option>
-    </select>
     <button className="ql-bold"></button>
     <button className="ql-italic"></button>
     <button className="ql-showFindModal">
@@ -45,12 +36,11 @@ function App() {
     }
     
     function insertTable() {
-        const quill = editorRef.current?.editor
+        const quill = editorRef.current?.getEditor()
         if(quill){
             quill.focus();
             const table = quill.getModule('table');
-            console.log(table);
-            table.insertTable(3, 3);
+            table.insertTable(3, 2);
         }
     }
     
@@ -69,7 +59,7 @@ function App() {
     const _closeFindModal = () => setVisible(false)
     
     const getEditor = () => {
-        return editorRef.current?.editor
+        return editorRef.current?.getEditor()
     }
     
     return (<div className={'container'}>
