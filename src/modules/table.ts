@@ -201,7 +201,6 @@ export default class TableUI {
     showMenu() {
         this.hideMenu();
         this.menu = this.quill.addContainer('ql-table-menu');
-        
         this.menuItems.forEach((it) => {
             this.menu.appendChild(this.createMenuItem(it));
         });

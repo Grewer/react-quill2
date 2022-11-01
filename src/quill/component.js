@@ -10,7 +10,6 @@ let some = require('lodash/some');
 let isEqual = require('lodash/isEqual');
 let T = require('prop-types');
 let DOM = require('react-dom-factories');
-let polyfill = require('react-lifecycles-compat').polyfill;
 
 /*
 Changing one of these props should cause a full re-render.
@@ -407,5 +406,4 @@ QuillComponent.getDerivedStateFromProps = function(nextProps, prevState) {
   return newState;
 };
 
-polyfill(QuillComponent);
 export default QuillComponent;
