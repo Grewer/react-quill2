@@ -244,30 +244,49 @@ class Keyboard extends Module {
   }
 
   handleDeleteRange(range) {
-    deleteRange({ range, quill: this.quill });
-    this.quill.focus();
+      const lines = this.quill.getLines(range);
+      let formats = {};
+      if (lines.length > 1) {
+          const firstFormats = lines[0].formats();
+          const lastFormats = lines[lines.length - 1].formats();
+          formats = AttributeMap.diff(lastFormats, firstFormats) || {};
+      }
+      this.quill.deleteText(range, Quill.sources.USER);
+      if (Object.keys(formats).length > 0) {
+          this.quill.formatLine(range.index, 1, formats, Quill.sources.USER);
+      }
+      this.quill.setSelection(range.index, Quill.sources.SILENT);
+      this.quill.focus();
+
   }
 
   handleEnter(range, context) {
-    const lineFormats = Object.keys(context.format).reduce(
-      (formats, format) => {
-        if (
-          this.quill.scroll.query(format, Scope.BLOCK) &&
-          !Array.isArray(context.format[format])
-        ) {
-          formats[format] = context.format[format];
-        }
-        return formats;
-      },
-      {},
-    );
-    const delta = new Delta()
+      const lineFormats = Object.keys(context.format).reduce(
+          (formats, format) => {
+              if (
+                  this.quill.scroll.query(format, Scope.BLOCK) &&
+                  !Array.isArray(context.format[format])
+              ) {
+                  formats[format] = context.format[format];
+              }
+              return formats;
+          },
+          {},
+      );
+      const delta = new Delta()
       .retain(range.index)
       .delete(range.length)
       .insert('\n', lineFormats);
-    this.quill.updateContents(delta, Quill.sources.USER);
-    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-    this.quill.focus();
+      this.quill.updateContents(delta, Quill.sources.USER);
+      this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+      this.quill.focus();
+    
+      Object.keys(context.format).forEach(name => {
+          if (lineFormats[name] != null) return;
+          if (Array.isArray(context.format[name])) return;
+          if (name === 'code' || name === 'link') return;
+          this.quill.format(name, context.format[name], Quill.sources.USER);
+      });
   }
 }
 
